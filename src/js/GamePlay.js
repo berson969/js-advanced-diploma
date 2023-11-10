@@ -28,6 +28,7 @@ export default class GamePlay {
    */
   drawUi(theme) {
     this.checkBinding();
+    console.log(this.container)
 
     this.container.innerHTML = `
       <div class="controls">

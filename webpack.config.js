@@ -1,8 +1,18 @@
 const path = require('node:path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'src'),
+    },
+    compress: true,
+    port: 3000,
   },
   module: {
     rules: [
@@ -14,15 +24,10 @@ module.exports = {
         },
       },
       {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-          },
-        ],
-      },
-      {
         test: /\.css$/i,
+        // use: [
+        //   MiniCssExtractPlugin.loader, 'css-loader'
+        // ]
         use: ['style-loader', 'css-loader'],
       },
       {
@@ -35,4 +40,13 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: './index.html',
+    }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].css',
+    // }),
+  ]
 };
