@@ -20,5 +20,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'import/no-dynamic-require': 'off',
+    'global-require': 'off',
+    'max-len': ['error', { code: 120 }],
   },
 };

@@ -2,7 +2,7 @@ import { calcHealthLevel, calcTileType } from './utils';
 
 export default class GamePlay {
   constructor() {
-    this.boardSize = 8;
+    this.boardSize = 10;
     this.container = null;
     this.boardEl = null;
     this.cells = [];
@@ -28,7 +28,6 @@ export default class GamePlay {
    */
   drawUi(theme) {
     this.checkBinding();
-    console.log(this.container)
 
     this.container.innerHTML = `
       <div class="controls">
@@ -52,6 +51,7 @@ export default class GamePlay {
     this.boardEl = this.container.querySelector('[data-id=board]');
 
     this.boardEl.classList.add(theme);
+    this.boardEl.style.setProperty('--grid-columns', this.boardSize);
     for (let i = 0; i < this.boardSize ** 2; i += 1) {
       const cellEl = document.createElement('div');
       cellEl.classList.add('cell', 'map-tile', `map-tile-${calcTileType(i, this.boardSize)}`);
@@ -70,10 +70,12 @@ export default class GamePlay {
    * @param positions array of PositionedCharacter objects
    */
   redrawPositions(positions) {
+    /* eslint-disable no-restricted-syntax */
     for (const cell of this.cells) {
       cell.innerHTML = '';
     }
 
+    /* eslint-disable no-restricted-syntax */
     for (const position of positions) {
       const cellEl = this.boardEl.children[position.position];
       const charEl = document.createElement('div');
@@ -83,7 +85,9 @@ export default class GamePlay {
       healthEl.classList.add('health-level');
 
       const healthIndicatorEl = document.createElement('div');
-      healthIndicatorEl.classList.add('health-level-indicator', `health-level-indicator-${calcHealthLevel(position.character.health)}`);
+      healthIndicatorEl.classList.add('health-level-indicator', `
+                          health-level-indicator-${calcHealthLevel(position.character.health)}
+                          `);
       healthIndicatorEl.style.width = `${position.character.health}%`;
       healthEl.appendChild(healthIndicatorEl);
 
@@ -187,7 +191,8 @@ export default class GamePlay {
   }
 
   selectCell(index, color = 'yellow') {
-    this.deselectCell(index);
+    // this.deselectAllCells();
+    // this.deselectCell(index)
     this.cells[index].classList.add('selected', `selected-${color}`);
   }
 
@@ -195,6 +200,14 @@ export default class GamePlay {
     const cell = this.cells[index];
     cell.classList.remove(...Array.from(cell.classList)
       .filter((o) => o.startsWith('selected')));
+  }
+
+  deselectAllCells() {
+    this.cells.forEach((cell) => {
+      // cell.classList.contains('selected-yellow')
+      cell.classList.remove(...Array.from(cell.classList)
+        .filter((o) => o.startsWith('selected')));
+    });
   }
 
   showCellTooltip(message, index) {

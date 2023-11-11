@@ -14,6 +14,7 @@
  */
 export default class Character {
   constructor(level, type = 'generic') {
+    if (new.target.name === 'Character') { throw Error('Direct call to new Character() is not allowed'); }
     this.level = level;
     this.attack = 0;
     this.defence = 0;

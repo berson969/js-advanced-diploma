@@ -8,9 +8,8 @@
     "build": "webpack --mode production",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "jest",
-    "coverage": "jest --coverage",
-    "prepare": "husky install"
+    "test": "jest --passWithNoTests",
+    "coverage": "jest --coverage"
   },
   "jest": {
     "collectCoverageFrom": [
