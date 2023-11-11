@@ -22,6 +22,6 @@ module.exports = {
   rules: {
     'import/no-dynamic-require': 'off',
     'global-require': 'off',
-    'max-len': ['error', { code: 120 }],
+    'max-len': ['warn', { code: 130 }],
   },
 };

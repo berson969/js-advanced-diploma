@@ -86,10 +86,7 @@ export default class GameController {
 
     if (positionedCharacter) {
       const char = positionedCharacter.character;
-      const message = `
-        ${char.type}\n
-        \u{1F396}${char.level}\u{2694}${char.attack}\u{1F6E1}${char.defence}\u{2764}${char.health}
-        `;
+      const message = `${char.type}\n\u{1F396}${char.level}\u{2694}${char.attack}\u{1F6E1}${char.defence}\u{2764}${char.health}`;
       this.gamePlay.showCellTooltip(message, index);
     }
   }
@@ -97,5 +94,6 @@ export default class GameController {
   onCellLeave(index) {
     // TODO: react to mouse leave
     this.gamePlay.hideCellTooltip(index);
+    this.gamePlay.setCursor(cursors.auto);
   }
 }

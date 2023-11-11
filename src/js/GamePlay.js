@@ -74,7 +74,6 @@ export default class GamePlay {
     for (const cell of this.cells) {
       cell.innerHTML = '';
     }
-
     /* eslint-disable no-restricted-syntax */
     for (const position of positions) {
       const cellEl = this.boardEl.children[position.position];
@@ -85,9 +84,10 @@ export default class GamePlay {
       healthEl.classList.add('health-level');
 
       const healthIndicatorEl = document.createElement('div');
-      healthIndicatorEl.classList.add('health-level-indicator', `
-                          health-level-indicator-${calcHealthLevel(position.character.health)}
-                          `);
+      healthIndicatorEl.classList.add(
+        'health-level-indicator',
+        `health-level-indicator-${calcHealthLevel(position.character.health)}`,
+      );
       healthIndicatorEl.style.width = `${position.character.health}%`;
       healthEl.appendChild(healthIndicatorEl);
 
