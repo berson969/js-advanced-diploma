@@ -3,9 +3,9 @@ import Magician from '../../characters/Magician';
 
 test('create-Magician', () => {
   expect(new Magician(3)).toEqual({
-    attack: 10,
+    attack: 12,
     attackDistance: 4,
-    defence: 40,
+    defence: 48,
     health: 50,
     level: 3,
     moveDistance: 1,

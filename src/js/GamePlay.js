@@ -2,7 +2,7 @@ import { calcHealthLevel, calcTileType } from './utils';
 
 export default class GamePlay {
   constructor() {
-    this.boardSize = 10;
+    this.boardSize = 8;
     this.container = null;
     this.boardEl = null;
     this.cells = [];
@@ -183,16 +183,19 @@ export default class GamePlay {
   }
 
   static showError(message) {
+    // eslint-disable-next-line no-alert
     alert(message);
   }
 
   static showMessage(message) {
+    // eslint-disable-next-line no-alert
     alert(message);
   }
 
   selectCell(index, color = 'yellow') {
     // this.deselectAllCells();
     // this.deselectCell(index)
+
     this.cells[index].classList.add('selected', `selected-${color}`);
   }
 
@@ -210,8 +213,10 @@ export default class GamePlay {
     });
   }
 
-  showCellTooltip(message, index) {
-    this.cells[index].title = message;
+  showCellTooltip(positionedCharacter) {
+    const char = positionedCharacter.character;
+    this.cells[positionedCharacter.position]
+      .title = `${char.type}\n\u{1F396}${char.level}\u{2694}${char.attack}\u{1F6E1}${char.defence}\u{2764}${char.health}`;
   }
 
   hideCellTooltip(index) {
@@ -227,6 +232,7 @@ export default class GamePlay {
       cell.appendChild(damageEl);
 
       damageEl.addEventListener('animationend', () => {
+        console.log('ShowDamage', damageEl, cell);
         cell.removeChild(damageEl);
         resolve();
       });

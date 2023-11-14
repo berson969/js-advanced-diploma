@@ -23,5 +23,6 @@ module.exports = {
     'import/no-dynamic-require': 'off',
     'global-require': 'off',
     'max-len': ['warn', { code: 130 }],
+    'no-plusplus': 'off',
   },
 };

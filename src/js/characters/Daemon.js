@@ -2,9 +2,7 @@ import Character from '../Character';
 
 class Daemon extends Character {
   constructor(level) {
-    super(level, 'Daemon');
-    this.attack = 10;
-    this.defence = 10;
+    super(level, 10, 10, 'Daemon');
     this.moveDistance = 1;
     this.attackDistance = 4;
   }

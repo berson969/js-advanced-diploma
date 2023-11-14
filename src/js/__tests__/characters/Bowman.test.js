@@ -3,9 +3,9 @@ import Bowman from '../../characters/Bowman';
 
 test('create-Bowman', () => {
   expect(new Bowman(3)).toEqual({
-    attack: 25,
+    attack: 30,
     attackDistance: 2,
-    defence: 25,
+    defence: 30,
     health: 50,
     level: 3,
     moveDistance: 2,
