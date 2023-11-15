@@ -2,7 +2,9 @@ import { expect, test } from '@jest/globals';
 import Undead from '../../characters/Undead';
 
 test('create-Undead', () => {
-  expect(new Undead(3)).toEqual({
+  const undead = new Undead(3);
+  undead.health = 50;
+  expect(undead).toEqual({
     attack: 48,
     attackDistance: 1,
     defence: 12,

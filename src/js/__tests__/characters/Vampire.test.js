@@ -2,7 +2,9 @@ import { expect, test } from '@jest/globals';
 import Vampire from '../../characters/Vampire';
 
 test('create-Vampire', () => {
-  expect(new Vampire(4)).toEqual({
+  const vampire = new Vampire(4);
+  vampire.health = 50;
+  expect(vampire).toEqual({
     attack: 32,
     attackDistance: 2,
     defence: 32,

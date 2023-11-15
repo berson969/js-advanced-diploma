@@ -2,7 +2,9 @@ import { expect, test } from '@jest/globals';
 import Swordsman from '../../characters/Swordsman';
 
 test('create-Swordsman', () => {
-  expect(new Swordsman(3)).toEqual({
+  const swordsman = new Swordsman(3);
+  swordsman.health = 50;
+  expect(swordsman).toEqual({
     attack: 48,
     attackDistance: 1,
     defence: 12,

@@ -1,7 +1,15 @@
+import PositionedCharacter from './PositionedCharacter';
+
 export default function createActiveCharacter(positionedCharacter, boardSize) {
+  if (typeof boardSize !== 'number' || boardSize < 4) {
+    throw new Error('There is wrong boardSize');
+  } else if (!(positionedCharacter instanceof PositionedCharacter)) {
+    throw new Error('There must be a class type PositionedCharacter');
+  }
+
   const index = positionedCharacter.position;
-  const { moveDistance } = positionedCharacter.character;
-  const { attackDistance } = positionedCharacter.character;
+  const { moveDistance, attackDistance } = positionedCharacter.character;
+  // const { move, attack } = positionedCharacter
   const moveIndexes = [];
   const attackIndexes = [];
   const row = Math.floor(index / boardSize);
@@ -32,8 +40,9 @@ export default function createActiveCharacter(positionedCharacter, boardSize) {
       }
     }
   }
-
-  positionedCharacter.move = moveIndexes;
-  positionedCharacter.attack = attackIndexes;
-  return positionedCharacter;
+  return {
+    ...positionedCharacter,
+    move: moveIndexes,
+    attack: attackIndexes,
+  };
 }

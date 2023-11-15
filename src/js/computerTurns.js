@@ -15,9 +15,23 @@ export default function computerTurn(positionedCharacter, obj) {
     gamePlay.showDamage(opponentCharacter.position, damage).then(() => {
       opponentCharacter.character.health -= damage;
       if (opponentCharacter.character.health <= 0) {
+        if (opponentCharacter === gameController.activeCharacter) {
+          gameController.activeCharacter = undefined;
+          gamePlay.deselectAllCells();
+        }
         gameController.userPositionedCharacters.splice(gameController.userPositionedCharacters.indexOf(opponentCharacter), 1);
-        enemyActiveCharacter.character.levelUp();
-        console.log('Enemy=LevelUp');
+        if (!gameController.userPositionedCharacters.length) {
+          enemyActiveCharacter.character.levelUp();
+          console.log('enemy wins');
+          gameController.nextLevel();
+        } else {
+          gamePlay.redrawPositions([...gameController.userPositionedCharacters, ...gameController.enemyPositionedCharacters]);
+        }
+      }
+      if (gameController.activeCharacter) {
+        gamePlay.selectCell(gameController.activeCharacter.position);
+      } else {
+        gamePlay.deselectAllCells();
       }
     });
     return console.log('computerAttackTurn is done');
@@ -29,12 +43,12 @@ export default function computerTurn(positionedCharacter, obj) {
     if (![...gameController.userPositionedCharacters, ...gameController.enemyPositionedCharacters]
       .filter((character) => character.position === movingPlace).length) {
       gameController.enemyPositionedCharacters.find((character) => character
-        .character === enemyActiveCharacter.character).position = movingPlace;
+        .position === enemyActiveCharacter.position).position = movingPlace;
       gamePlay.redrawPositions([
         ...gameController.userPositionedCharacters,
         ...gameController.enemyPositionedCharacters,
       ]);
-      gamePlay.deselectAllCells();
+      // gamePlay.deselectAllCells();
 
       return console.log('computerMovingTurn is done');
     }

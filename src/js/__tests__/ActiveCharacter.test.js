@@ -1,17 +1,21 @@
 import { expect, test } from '@jest/globals';
 import createActiveCharacter from '../createActiveCharacter';
+import Bowman from '../characters/Bowman';
+import PositionedCharacter from '../PositionedCharacter';
 
 test('indexes-8', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 1,
-      attackDistance: 1,
-    },
-    position: 10,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 1;
+  bowman.attackDistance = 1;
+  const positionedCharacter = new PositionedCharacter(bowman, 10);
   const boardSize = 8;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 1,
       attackDistance: 1,
     },
@@ -22,16 +26,18 @@ test('indexes-8', () => {
 });
 
 test('start-with-0', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 1,
-      attackDistance: 2,
-    },
-    position: 0,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 1;
+  bowman.attackDistance = 2;
+  const positionedCharacter = new PositionedCharacter(bowman, 0);
   const boardSize = 4;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 1,
       attackDistance: 2,
     },
@@ -42,16 +48,18 @@ test('start-with-0', () => {
 });
 
 test('right-side', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 1,
-      attackDistance: 2,
-    },
-    position: 11,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 1;
+  bowman.attackDistance = 2;
+  const positionedCharacter = new PositionedCharacter(bowman, 11);
   const boardSize = 4;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 1,
       attackDistance: 2,
     },
@@ -62,16 +70,18 @@ test('right-side', () => {
 });
 
 test('central', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 2,
-      attackDistance: 2,
-    },
-    position: 12,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 2;
+  bowman.attackDistance = 2;
+  const positionedCharacter = new PositionedCharacter(bowman, 12);
   const boardSize = 5;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 2,
       attackDistance: 2,
     },
@@ -82,40 +92,46 @@ test('central', () => {
 });
 
 test('left-side', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 2,
-      attackDistance: 2,
-    },
-    position: 10,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 1;
+  bowman.attackDistance = 2;
+  const positionedCharacter = new PositionedCharacter(bowman, 11);
   const boardSize = 5;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
     character: {
-      moveDistance: 2,
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
+      moveDistance: 1,
       attackDistance: 2,
     },
-    position: 10,
-    move: [0, 2, 5, 6, 10, 11, 12, 15, 16, 20, 22],
-    attack: [0, 1, 2, 5, 6, 7, 10, 11, 12, 15, 16, 17, 20, 21, 22],
+    position: 11,
+    move: [5, 6, 7, 10, 11, 12, 15, 16, 17],
+    attack: [0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23],
   });
 });
 
 test('bottom-side', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 4,
-      attackDistance: 4,
-    },
-    position: 51,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 4;
+  bowman.attackDistance = 4;
+  const positionedCharacter = new PositionedCharacter(bowman, 51);
   const boardSize = 8;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
+
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 4,
       attackDistance: 4,
     },
     position: 51,
+
     move: [19, 23, 24, 27, 30, 33, 35, 37, 42, 43, 44, 48, 49, 50, 51, 52, 53, 54, 55, 58, 59, 60],
     attack: [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
       41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63],
@@ -123,36 +139,42 @@ test('bottom-side', () => {
 });
 
 test('problem-logic', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 4,
-      attackDistance: 1,
-    },
-    position: 16,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 4;
+  bowman.attackDistance = 1;
+  const positionedCharacter = new PositionedCharacter(bowman, 16);
   const boardSize = 5;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
+
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 4,
       attackDistance: 1,
     },
     position: 16,
+
     move: [1, 4, 6, 8, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22],
     attack: [10, 11, 12, 15, 16, 17, 20, 21, 22],
   });
 });
 
 test('problem-logic-again', () => {
-  const positionedCharacter = {
-    character: {
-      moveDistance: 1,
-      attackDistance: 4,
-    },
-    position: 34,
-  };
+  const bowman = new Bowman(1);
+  bowman.moveDistance = 1;
+  bowman.attackDistance = 4;
+  const positionedCharacter = new PositionedCharacter(bowman, 34);
   const boardSize = 8;
   expect(createActiveCharacter(positionedCharacter, boardSize)).toEqual({
     character: {
+      level: 1,
+      attack: 25,
+      defence: 25,
+      health: 50,
+      type: 'Bowman',
       moveDistance: 1,
       attackDistance: 4,
     },
@@ -162,4 +184,27 @@ test('problem-logic-again', () => {
       28, 29, 30, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 56,
       57, 58, 59, 60, 61, 62],
   });
+});
+
+test('wrong-position', () => {
+  const positionedCharacter = {
+    character: {
+      moveDistance: 1,
+      attackDistance: 4,
+    },
+    position: 34,
+  };
+  const boardSize = 8;
+  expect(() => createActiveCharacter(positionedCharacter, boardSize)).toThrow(
+    'There must be a class type PositionedCharacter',
+  );
+});
+
+test('wrong-boardSize', () => {
+  const bowman = new Bowman(1);
+  const positionedCharacter = new PositionedCharacter(bowman, 1);
+  const boardSize = 'notBoardSize';
+  expect(() => createActiveCharacter(positionedCharacter, boardSize)).toThrow(
+    'There is wrong boardSize',
+  );
 });

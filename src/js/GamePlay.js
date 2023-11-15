@@ -1,8 +1,10 @@
 import { calcHealthLevel, calcTileType } from './utils';
+// import { toast, ToastContainer } from "react-toastify";
+// import 'react-toastify/dist/ReactToastify.css';
 
 export default class GamePlay {
   constructor() {
-    this.boardSize = 8;
+    this.boardSize = 5;
     this.container = null;
     this.boardEl = null;
     this.cells = [];
@@ -123,6 +125,12 @@ export default class GamePlay {
     this.cellClickListeners.push(callback);
   }
 
+  removeAllCellListeners() {
+    this.cellEnterListeners = [];
+    this.cellLeaveListeners = [];
+    this.cellClickListeners = [];
+  }
+
   /**
    * Add listener to "New Game" button click
    *
@@ -194,7 +202,7 @@ export default class GamePlay {
 
   selectCell(index, color = 'yellow') {
     // this.deselectAllCells();
-    // this.deselectCell(index)
+    this.deselectCell(index);
 
     this.cells[index].classList.add('selected', `selected-${color}`);
   }
