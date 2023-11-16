@@ -7,22 +7,24 @@ export default function computerTurn(positionedCharacter, obj) {
   const opponentCharacter = gameController.userPositionedCharacters
     .filter((character) => enemyActiveCharacter.attack.includes(character.position))
     .sort((a, b) => a.character.health - b.character.health)[0];
-  console.log('damage for Enemy', opponentCharacter);
+
   if (opponentCharacter) {
     const damage = Math.floor(Math.max(enemyActiveCharacter.character.attack
       - opponentCharacter.character.defence, enemyActiveCharacter.character.attack * 0.1));
 
     gamePlay.showDamage(opponentCharacter.position, damage).then(() => {
       opponentCharacter.character.health -= damage;
+      gamePlay.score -= damage;
       if (opponentCharacter.character.health <= 0) {
         if (opponentCharacter === gameController.activeCharacter) {
+          gamePlay.score -= opponentCharacter.character.defence;
           gameController.activeCharacter = undefined;
           gamePlay.deselectAllCells();
         }
         gameController.userPositionedCharacters.splice(gameController.userPositionedCharacters.indexOf(opponentCharacter), 1);
         if (!gameController.userPositionedCharacters.length) {
           enemyActiveCharacter.character.levelUp();
-          console.log('enemy wins');
+
           gameController.nextLevel();
         } else {
           gamePlay.redrawPositions([...gameController.userPositionedCharacters, ...gameController.enemyPositionedCharacters]);

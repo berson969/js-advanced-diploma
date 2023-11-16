@@ -32,6 +32,13 @@ body {
   margin: 50px 0;
 }
 
+.score {
+  color: #0074D9;
+  font-size: 1.5rem;
+  padding: .5rem ;
+  text-align: center;
+}
+
 .board-container {
   display: flex;
   align-items: center;

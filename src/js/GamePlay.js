@@ -14,6 +14,7 @@ export default class GamePlay {
     this.newGameListeners = [];
     this.saveGameListeners = [];
     this.loadGameListeners = [];
+    this.score = 0;
   }
 
   bindToDOM(container) {
@@ -36,7 +37,9 @@ export default class GamePlay {
         <button data-id="action-restart" class="btn">New Game</button>
         <button data-id="action-save" class="btn">Save Game</button>
         <button data-id="action-load" class="btn">Load Game</button>
+        <div class="score">Your score: ${Math.floor(this.score)}</div>
       </div>
+      
       <div class="board-container">
         <div data-id="board" class="board"></div>
       </div>
@@ -95,6 +98,11 @@ export default class GamePlay {
 
       charEl.appendChild(healthEl);
       cellEl.appendChild(charEl);
+
+      const scoreEl = document.createElement('div');
+      scoreEl.classList.add('score');
+      scoreEl.textContent = `Your score: ${Math.floor(this.score)}`;
+      document.querySelector('.score').replaceWith(scoreEl);
     }
   }
 
@@ -201,9 +209,7 @@ export default class GamePlay {
   }
 
   selectCell(index, color = 'yellow') {
-    // this.deselectAllCells();
     this.deselectCell(index);
-
     this.cells[index].classList.add('selected', `selected-${color}`);
   }
 
@@ -215,7 +221,6 @@ export default class GamePlay {
 
   deselectAllCells() {
     this.cells.forEach((cell) => {
-      // cell.classList.contains('selected-yellow')
       cell.classList.remove(...Array.from(cell.classList)
         .filter((o) => o.startsWith('selected')));
     });

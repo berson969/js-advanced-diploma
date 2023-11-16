@@ -26,3 +26,9 @@ test('create-Magician', () => {
     type: 'Magician',
   });
 });
+
+test('invalid-level', () => {
+  expect(() => new Magician(-1)).toThrow(
+    'Invalid level',
+  );
+});

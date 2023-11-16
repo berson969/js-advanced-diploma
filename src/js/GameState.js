@@ -46,14 +46,13 @@ export default class GameState {
       this.gameController.gameLevel = state.gameLevel;
       this.gameController.activeCharacter = undefined;
       this.gameController.gamePlay.boardSize = state.boardSize;
-      this.gameController.score = state.score;
+      this.gameController.gamePlay.score = state.score;
       this.gameController.userPositionedCharacters = this.getPositionedCharacters(state.userPositionedCharacters);
       this.gameController.enemyPositionedCharacters = this.getPositionedCharacters(state.enemyPositionedCharacters);
       this.gameController.gamePlay.deselectAllCells();
       this.gameController.gamePlay.redrawPositions(
         [...state.userPositionedCharacters, ...state.enemyPositionedCharacters],
       );
-      console.log('Load success');
     } catch (e) {
       throw new Error('Got wrong state data');
     }

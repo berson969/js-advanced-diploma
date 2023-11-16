@@ -15,6 +15,7 @@ jest.mock('../../characters/Daemon', () => jest.fn().mockImplementation((level) 
     type: 'Daemon',
   };
 }));
+
 test('create-Daemon', () => {
   expect(new Daemon(1)).toEqual({
     attack: 10,
@@ -23,6 +24,23 @@ test('create-Daemon', () => {
     health: 50,
     level: 1,
     moveDistance: 1,
+    type: 'Daemon',
+  });
+});
+
+test('create-Daemon-with-another-props', () => {
+  const daemon = new Daemon(1);
+  daemon.health = 100;
+  daemon.moveDistance = 2;
+  daemon.attackDistance = 2;
+  daemon.attack = 20;
+  expect(daemon).toEqual({
+    attack: 20,
+    attackDistance: 2,
+    defence: 10,
+    health: 100,
+    level: 1,
+    moveDistance: 2,
     type: 'Daemon',
   });
 });
