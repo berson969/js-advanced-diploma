@@ -1,34 +1,17 @@
 import PositionedCharacter from './PositionedCharacter';
-import Bowman from './characters/Bowman';
-import Daemon from './characters/Daemon';
-import Magician from './characters/Magician';
-import Swordsman from './characters/Swordsman';
-import Undead from './characters/Undead';
-import Vampire from './characters/Vampire';
-import Zombie from './characters/Zombie';
 
 export default class GameState {
   constructor(gameController) {
     if (!gameController) {
       throw new Error('GameController instance is required');
     }
-
     this.gameController = gameController;
-    this.classMapping = {
-      Bowman,
-      Daemon,
-      Magician,
-      Swordsman,
-      Undead,
-      Vampire,
-      Zombie,
-    };
   }
 
   getPositionedCharacters(characters) {
     return characters.map((item) => {
-      const ClassName = this.classMapping[item.character.type];
-      const character = new ClassName(item.character.level);
+      const CharacterClass = require(`./characters/${item.character.type}`).default;
+      const character = new CharacterClass(item.character.level);
       character.health = item.character.health;
       character.defence = item.character.defence;
       character.attack = item.character.attack;
@@ -43,7 +26,7 @@ export default class GameState {
     }
 
     try {
-      this.gameController.gameLevel = state.gameLevel;
+      this.gameController.gamePlay.level = state.level;
       this.gameController.activeCharacter = undefined;
       this.gameController.gamePlay.boardSize = state.boardSize;
       this.gameController.gamePlay.score = state.score;

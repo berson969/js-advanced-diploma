@@ -1,10 +1,8 @@
 import { calcHealthLevel, calcTileType } from './utils';
-// import { toast, ToastContainer } from "react-toastify";
-// import 'react-toastify/dist/ReactToastify.css';
 
 export default class GamePlay {
   constructor() {
-    this.boardSize = 5;
+    this.boardSize = 8;
     this.container = null;
     this.boardEl = null;
     this.cells = [];
@@ -15,6 +13,7 @@ export default class GamePlay {
     this.saveGameListeners = [];
     this.loadGameListeners = [];
     this.score = 0;
+    this.level = 0;
   }
 
   bindToDOM(container) {
@@ -37,7 +36,7 @@ export default class GamePlay {
         <button data-id="action-restart" class="btn">New Game</button>
         <button data-id="action-save" class="btn">Save Game</button>
         <button data-id="action-load" class="btn">Load Game</button>
-        <div class="score">Your score: ${Math.floor(this.score)}</div>
+        <div class="score">Your level: ${this.level} Your score: ${Math.floor(this.score)}</div>
       </div>
       
       <div class="board-container">
@@ -99,10 +98,8 @@ export default class GamePlay {
       charEl.appendChild(healthEl);
       cellEl.appendChild(charEl);
 
-      const scoreEl = document.createElement('div');
-      scoreEl.classList.add('score');
-      scoreEl.textContent = `Your score: ${Math.floor(this.score)}`;
-      document.querySelector('.score').replaceWith(scoreEl);
+      document.querySelector('.score')
+        .textContent = `Your level: ${this.level} Your score: ${Math.floor(this.score)}`;
     }
   }
 

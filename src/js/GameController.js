@@ -12,9 +12,8 @@ export default class GameController {
     this.gamePlay = gamePlay;
     this.userTypeCharacters = ['Bowman', 'Swordsman', 'Magician'];
     this.enemyTypeCharacters = ['Undead', 'Daemon', 'Vampire', 'Zombie'];
-    this.gameLevel = 0;
     this.activeCharacter = undefined;
-    this.characterCount = 2;
+    this.characterCount = 5;
     this.stateService = stateService;
   }
 
@@ -39,7 +38,7 @@ export default class GameController {
     });
     this.gamePlay.addSaveGameListener(() => {
       const state = {
-        level: this.gameLevel,
+        level: this.gamePlay.level,
         boardSize: this.gamePlay.boardSize,
         userPositionedCharacters: this.userPositionedCharacters,
         enemyPositionedCharacters: this.enemyPositionedCharacters,
@@ -71,15 +70,15 @@ export default class GameController {
   }
 
   nextLevel() {
-    this.gameLevel++;
-    if (this.gameLevel > 8) {
+    this.gamePlay.level++;
+    if (this.gamePlay.level > 8) {
       console.log('Game over');
-      GamePlay.showMessage('Game loaded');
+      GamePlay.showMessage('Game over');
       this.gamePlay.removeAllCellListeners();
     } else {
-      this.gamePlay.drawUi(Object.values(themes)[(this.gameLevel - 1) % 4]);
-      this.userTeam = generateTeam(this.userTypeCharacters, this.gameLevel, this.characterCount);
-      this.enemyTeam = generateTeam(this.enemyTypeCharacters, this.gameLevel, this.characterCount);
+      this.gamePlay.drawUi(Object.values(themes)[(this.gamePlay.level - 1) % 4]);
+      this.userTeam = generateTeam(this.userTypeCharacters, this.gamePlay.level, this.characterCount);
+      this.enemyTeam = generateTeam(this.enemyTypeCharacters, this.gamePlay.level, this.characterCount);
       this.userPositionedCharacters = this.startPositionList(this.userTeam, 'user');
       this.enemyPositionedCharacters = this.startPositionList(this.enemyTeam, 'enemy');
       this.gamePlay.deselectAllCells();
@@ -133,6 +132,7 @@ export default class GameController {
       userPositionedCharacter = this.userPositionedCharacters
         .find((positionedCharacter) => positionedCharacter.position === this.activeCharacter.position);
       console.log('Problem after moving', userPositionedCharacter);
+      console.log('this.activeCharacter', this.activeCharacter);
       userPositionedCharacter.position = index;
       this.gamePlay.redrawPositions([...this.userPositionedCharacters, ...this.enemyPositionedCharacters]);
       // this.gamePlay.deselectCell(this.activeCharacter.position);
