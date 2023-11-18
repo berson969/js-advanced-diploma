@@ -16,14 +16,16 @@ export default function computerTurn(positionedCharacter, obj) {
       opponentCharacter.character.health -= damage;
       gamePlay.score -= damage;
       if (opponentCharacter.character.health <= 0) {
+        enemyActiveCharacter.character.levelUp();
         if (opponentCharacter === gameController.activeCharacter) {
           gamePlay.score -= opponentCharacter.character.defence;
           gameController.activeCharacter = undefined;
           gamePlay.deselectAllCells();
         }
+
         gameController.userPositionedCharacters.splice(gameController.userPositionedCharacters.indexOf(opponentCharacter), 1);
         if (!gameController.userPositionedCharacters.length) {
-          enemyActiveCharacter.character.levelUp();
+
 
           gameController.nextLevel();
         } else {

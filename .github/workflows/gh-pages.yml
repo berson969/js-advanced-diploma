@@ -13,6 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+
       - name: Install dependencies and build
         run: |
           npm install
@@ -23,4 +29,4 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
-          target-folder: "./docs"
+          target-folder: "."

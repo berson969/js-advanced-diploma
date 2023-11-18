@@ -33,6 +33,7 @@ export default class GameController {
     });
     this.gamePlay.addNewGameListener(() => {
       const gameController = new GameController(this.gamePlay, this.stateService);
+      this.gamePlay.level = 0
       gameController.init();
       GamePlay.showMessage('New Game loaded');
     });
@@ -111,12 +112,12 @@ export default class GameController {
           this.gamePlay.score += damage;
           if (enemyPositionedCharacter.character.health <= 0) {
             this.gamePlay.score += enemyPositionedCharacter.character.defence;
+            this.activeCharacter.character.levelUp()
             this.enemyPositionedCharacters.splice(this.enemyPositionedCharacters.indexOf(enemyPositionedCharacter), 1);
 
             if (!this.enemyPositionedCharacters.length) {
               // Level grows
               this.nextLevel();
-              this.activeCharacter.character.levelUp();
             }
           }
           this.gamePlay.redrawPositions([
@@ -150,7 +151,7 @@ export default class GameController {
     const userPositionedCharacter = this.userPositionedCharacters.find((character) => character.position === index);
 
     if (this.activeCharacter) {
-      // this.gamePlay.deselectAllCells();
+      this.gamePlay.deselectAllCells();
       this.gamePlay.selectCell(this.activeCharacter.position);
 
       if (enemyPositionedCharacter && this.activeCharacter.attack.includes(index)) {
