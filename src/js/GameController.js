@@ -34,6 +34,7 @@ export default class GameController {
     this.gamePlay.addNewGameListener(() => {
       const gameController = new GameController(this.gamePlay, this.stateService);
       this.gamePlay.level = 0;
+      this.gamePlay.score = 0;
       gameController.init();
       GamePlay.showMessage('New Game loaded');
     });
