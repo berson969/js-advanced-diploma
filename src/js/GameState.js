@@ -8,6 +8,7 @@ export default class GameState {
     this.gameController = gameController;
   }
 
+  /* eslint-disable class-methods-use-this */
   getPositionedCharacters(characters) {
     return characters.map((item) => {
       const CharacterClass = require(`./characters/${item.character.type}`).default;

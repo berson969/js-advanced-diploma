@@ -1,4 +1,5 @@
 import createActiveCharacter from './createActiveCharacter';
+import GamePlay from './GamePlay';
 
 export default function computerTurn(positionedCharacter, obj) {
   const { gamePlay } = obj;
@@ -25,8 +26,6 @@ export default function computerTurn(positionedCharacter, obj) {
 
         gameController.userPositionedCharacters.splice(gameController.userPositionedCharacters.indexOf(opponentCharacter), 1);
         if (!gameController.userPositionedCharacters.length) {
-
-
           gameController.nextLevel();
         } else {
           gamePlay.redrawPositions([...gameController.userPositionedCharacters, ...gameController.enemyPositionedCharacters]);
@@ -38,7 +37,7 @@ export default function computerTurn(positionedCharacter, obj) {
         gamePlay.deselectAllCells();
       }
     });
-    return console.log('computerAttackTurn is done');
+    return;
   }
 
   const movingPlaces = enemyActiveCharacter.move;
@@ -52,10 +51,7 @@ export default function computerTurn(positionedCharacter, obj) {
         ...gameController.userPositionedCharacters,
         ...gameController.enemyPositionedCharacters,
       ]);
-      // gamePlay.deselectAllCells();
-
-      return console.log('computerMovingTurn is done');
     }
   }
-  return console.log('Game over');
+  GamePlay.showMessage('Game over');
 }

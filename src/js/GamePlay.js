@@ -242,7 +242,6 @@ export default class GamePlay {
       cell.appendChild(damageEl);
 
       damageEl.addEventListener('animationend', () => {
-        console.log('ShowDamage', damageEl, cell);
         cell.removeChild(damageEl);
         resolve();
       });

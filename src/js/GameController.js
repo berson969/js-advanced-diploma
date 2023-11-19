@@ -33,7 +33,7 @@ export default class GameController {
     });
     this.gamePlay.addNewGameListener(() => {
       const gameController = new GameController(this.gamePlay, this.stateService);
-      this.gamePlay.level = 0
+      this.gamePlay.level = 0;
       gameController.init();
       GamePlay.showMessage('New Game loaded');
     });
@@ -46,7 +46,6 @@ export default class GameController {
         score: this.gamePlay.score,
       };
       this.stateService.save(state);
-      console.log('Game saved');
       GamePlay.showMessage('Game saved');
     });
     this.gamePlay.addLoadGameListener(() => {
@@ -73,7 +72,6 @@ export default class GameController {
   nextLevel() {
     this.gamePlay.level++;
     if (this.gamePlay.level > 8) {
-      console.log('Game over');
       GamePlay.showMessage('Game over');
       this.gamePlay.removeAllCellListeners();
     } else {
@@ -112,7 +110,7 @@ export default class GameController {
           this.gamePlay.score += damage;
           if (enemyPositionedCharacter.character.health <= 0) {
             this.gamePlay.score += enemyPositionedCharacter.character.defence;
-            this.activeCharacter.character.levelUp()
+            this.activeCharacter.character.levelUp();
             this.enemyPositionedCharacters.splice(this.enemyPositionedCharacters.indexOf(enemyPositionedCharacter), 1);
 
             if (!this.enemyPositionedCharacters.length) {
@@ -132,8 +130,6 @@ export default class GameController {
       this.gamePlay.deselectCell(this.activeCharacter.position);
       userPositionedCharacter = this.userPositionedCharacters
         .find((positionedCharacter) => positionedCharacter.position === this.activeCharacter.position);
-      console.log('Problem after moving', userPositionedCharacter);
-      console.log('this.activeCharacter', this.activeCharacter);
       userPositionedCharacter.position = index;
       this.gamePlay.redrawPositions([...this.userPositionedCharacters, ...this.enemyPositionedCharacters]);
       // this.gamePlay.deselectCell(this.activeCharacter.position);
