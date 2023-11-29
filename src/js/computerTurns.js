@@ -1,5 +1,4 @@
 import createActiveCharacter from './createActiveCharacter';
-import GamePlay from './GamePlay';
 
 export default function computerTurn(positionedCharacter, obj) {
   const { gamePlay } = obj;
@@ -9,6 +8,7 @@ export default function computerTurn(positionedCharacter, obj) {
     .filter((character) => enemyActiveCharacter.attack.includes(character.position))
     .sort((a, b) => a.character.health - b.character.health)[0];
 
+  // TODO: enemy attack
   if (opponentCharacter) {
     const damage = Math.floor(Math.max(enemyActiveCharacter.character.attack
       - opponentCharacter.character.defence, enemyActiveCharacter.character.attack * 0.1));
@@ -39,19 +39,18 @@ export default function computerTurn(positionedCharacter, obj) {
     });
     return;
   }
-
+  // TODO: enemy moving
   const movingPlaces = enemyActiveCharacter.move;
-  while (movingPlaces) {
+  while (movingPlaces.length) {
     const movingPlace = movingPlaces.splice(Math.floor(Math.random() * movingPlaces.length), 1)[0];
-    if (![...gameController.userPositionedCharacters, ...gameController.enemyPositionedCharacters]
-      .filter((character) => character.position === movingPlace).length) {
-      gameController.enemyPositionedCharacters.find((character) => character
-        .position === enemyActiveCharacter.position).position = movingPlace;
+    const characterInMovingPlace = [...gameController.userPositionedCharacters,
+      ...gameController.enemyPositionedCharacters].filter((character) => character.position === movingPlace);
+    if (!characterInMovingPlace.length) {
+      enemyActiveCharacter.position = movingPlace;
       gamePlay.redrawPositions([
         ...gameController.userPositionedCharacters,
         ...gameController.enemyPositionedCharacters,
       ]);
     }
   }
-  GamePlay.showMessage('Game over');
 }

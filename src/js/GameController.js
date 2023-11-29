@@ -63,7 +63,7 @@ export default class GameController {
       startArray.push(i);
       startArray.push(i + 1);
     }
-    return team.characters.map((character) => {
+    return team.toArray().map((character) => {
       const position = startArray[Math.floor(Math.random() * startArray.length)];
       startArray.splice(startArray.indexOf(position), 1);
       return new PositionedCharacter(character, position);
@@ -72,10 +72,11 @@ export default class GameController {
 
   nextLevel() {
     this.gamePlay.level++;
-    if (this.gamePlay.level > 8) {
+    if (this.gamePlay.level > 4) {
       GamePlay.showMessage('Game over');
       this.gamePlay.removeAllCellListeners();
     } else {
+      this.activeCharacter = undefined;
       this.gamePlay.drawUi(Object.values(themes)[(this.gamePlay.level - 1) % 4]);
       this.userTeam = generateTeam(this.userTypeCharacters, this.gamePlay.level, this.characterCount);
       this.enemyTeam = generateTeam(this.enemyTypeCharacters, this.gamePlay.level, this.characterCount);
@@ -102,7 +103,7 @@ export default class GameController {
       }
     } else if (enemyPositionedCharacter) {
       if (this.activeCharacter && this.activeCharacter.attack.includes(index)) {
-        // attack
+        // TODO: user attack
         const attacker = this.activeCharacter.character.attack;
         const damage = Math.floor(Math.max(attacker
           - enemyPositionedCharacter.character.defence, attacker * 0.1));
@@ -115,7 +116,7 @@ export default class GameController {
             this.enemyPositionedCharacters.splice(this.enemyPositionedCharacters.indexOf(enemyPositionedCharacter), 1);
 
             if (!this.enemyPositionedCharacters.length) {
-              // Level grows
+              // TODO: Level grows
               this.nextLevel();
             }
           }
@@ -127,13 +128,12 @@ export default class GameController {
         });
       }
     } else if (this.activeCharacter && this.activeCharacter.move.includes(index)) {
-      // moving
+      // TODO: user moving
       this.gamePlay.deselectCell(this.activeCharacter.position);
       userPositionedCharacter = this.userPositionedCharacters
         .find((positionedCharacter) => positionedCharacter.position === this.activeCharacter.position);
       userPositionedCharacter.position = index;
       this.gamePlay.redrawPositions([...this.userPositionedCharacters, ...this.enemyPositionedCharacters]);
-      // this.gamePlay.deselectCell(this.activeCharacter.position);
       this.activeCharacter = createActiveCharacter(userPositionedCharacter, this.gamePlay.boardSize);
       this.gamePlay.selectCell(index);
 

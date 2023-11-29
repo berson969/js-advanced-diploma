@@ -26,7 +26,6 @@ export default class Character {
     this.health = 50;
     this.type = type;
     this.setLevelStats(level);
-    // TODO: выбросите исключение, если кто-то использует "new Character()"
   }
 
   levelUp() {

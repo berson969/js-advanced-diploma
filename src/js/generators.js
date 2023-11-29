@@ -28,9 +28,11 @@ export function* characterGenerator(allowedTypes, maxLevel) {
  * */
 export function generateTeam(allowedTypes, maxLevel, characterCount) {
   // TODO: write logic here
+  const team = new Team();
   const characters = Array.from(
     { length: characterCount },
     () => characterGenerator(allowedTypes, maxLevel).next().value,
   );
-  return new Team(characters);
+  team.addAll(...characters);
+  return team;
 }

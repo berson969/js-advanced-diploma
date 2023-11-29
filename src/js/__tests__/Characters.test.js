@@ -8,6 +8,12 @@ test('error is thrown for direct instantiation', () => {
   );
 });
 
+test('error is wrong level number', () => {
+  expect(() => new Bowman(-5)).toThrow(
+    'Invalid level',
+  );
+});
+
 test('levelUp', () => {
   const bowman = new Bowman(1);
   bowman.levelUp();
@@ -17,6 +23,23 @@ test('levelUp', () => {
       attackDistance: 2,
       defence: 25,
       health: 100,
+      level: 2,
+      moveDistance: 2,
+      type: 'Bowman',
+    },
+  );
+});
+
+test('levelUp-with-bad-health', () => {
+  const bowman = new Bowman(1);
+  bowman.health = 1;
+  bowman.levelUp();
+  expect(bowman).toEqual(
+    {
+      attack: 25,
+      attackDistance: 2,
+      defence: 25,
+      health: 81,
       level: 2,
       moveDistance: 2,
       type: 'Bowman',
