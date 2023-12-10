@@ -18,7 +18,7 @@ export default function computerTurn(positionedCharacter, obj) {
       gamePlay.score -= damage;
       if (opponentCharacter.character.health <= 0) {
         enemyActiveCharacter.character.levelUp();
-        if (opponentCharacter === gameController.activeCharacter) {
+        if (opponentCharacter.position === gameController.activeCharacter.position) {
           gamePlay.score -= opponentCharacter.character.defence;
           gameController.activeCharacter = undefined;
           gamePlay.deselectAllCells();
@@ -40,17 +40,18 @@ export default function computerTurn(positionedCharacter, obj) {
     return;
   }
   // TODO: enemy moving
-  const movingPlaces = enemyActiveCharacter.move;
-  while (movingPlaces.length) {
-    const movingPlace = movingPlaces.splice(Math.floor(Math.random() * movingPlaces.length), 1)[0];
-    const characterInMovingPlace = [...gameController.userPositionedCharacters,
-      ...gameController.enemyPositionedCharacters].filter((character) => character.position === movingPlace);
-    if (!characterInMovingPlace.length) {
-      enemyActiveCharacter.position = movingPlace;
-      gamePlay.redrawPositions([
-        ...gameController.userPositionedCharacters,
-        ...gameController.enemyPositionedCharacters,
-      ]);
-    }
-  }
+  const isPositionOccupied = (position, characterArray) => characterArray
+    .some((positionCharacter) => positionCharacter.position === position);
+  const movingPlaces = enemyActiveCharacter.move.filter((movingPlace) => {
+    const isOccupied = isPositionOccupied(movingPlace, gameController.userPositionedCharacters)
+      || isPositionOccupied(movingPlace, gameController.enemyPositionedCharacters);
+    return !isOccupied;
+  });
+  const movingPlace = movingPlaces[Math.floor(Math.random() * movingPlaces.length)];
+  const indexToUpdate = gameController.enemyPositionedCharacters
+    .findIndex((character) => character.position === enemyActiveCharacter.position);
+  gameController.enemyPositionedCharacters[indexToUpdate].position = movingPlace;
+  gamePlay.redrawPositions([
+    ...gameController.userPositionedCharacters, ...gameController.enemyPositionedCharacters,
+  ]);
 }

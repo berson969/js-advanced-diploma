@@ -31,7 +31,7 @@ export default class Character {
   levelUp() {
     this.level++;
     this.attack = Math.floor(Math.max(this.attack, this.attack * ((80 + this.health) / 100)));
-    this.health = (this.health + 80 < 100) ? this.health + 80 : 100;
+    this.health = (this.health + 30 < 100) ? this.health + 30 : 100;
   }
 
   setLevelStats(level) {
